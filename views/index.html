@@ -1,0 +1,141 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(function () {
+            $("#search_term_text").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        dataType: "json",
+                        type: 'Get',
+                        url: '/api/v1/globalsearchautotext/?term=' + request.term,
+                        success: function (data) {
+                            $('#search_term_text').removeClass('ui-autocomplete-loading');
+                            response(data);
+                        },
+                        error: function (data) {
+                            $('#search_term_text').removeClass('ui-autocomplete-loading');
+                        }
+                    });
+                },
+                minLength: 3,
+                open: function () { },
+                close: function () { },
+                focus: function (event, ui) { },
+                select: function (event, ui) { }
+            });
+
+            //for auther creation...
+            $("#create_author").click(function (e) {
+                e.preventDefault();
+                console.log('clicked!')
+                $.ajax({
+                    type: "POST",
+                    url: "/api/v1/createdummyauthors",
+                    data: {
+                        no_of_authors: $("#author_no").val()
+                    },
+                    success: function (result) {
+                        alert('Author saved!');
+                    },
+                    error: function (result) {
+                        alert('error');
+                    }
+                });
+            });
+
+            //for book creation...
+            $("#create_book").click(function (e) {
+                e.preventDefault();
+                console.log('clicked!')
+                $.ajax({
+                    type: "POST",
+                    url: "/api/v1/createdummybooks",
+                    data: {
+                        no_of_book: $("#book_no").val()
+                    },
+                    success: function (result) {
+                        alert('Books saved!');
+                    },
+                    error: function (result) {
+                        alert('error');
+                    }
+                });
+            });
+
+            //for review creation...
+            $("#create_review").click(function (e) {
+                e.preventDefault();
+                console.log('clicked!')
+                $.ajax({
+                    type: "POST",
+                    url: "/api/v1/createdummyreviews",
+                    data: {
+                        no_of_reviews: $("#review_no").val()
+                    },
+                    success: function (result) {
+                        alert('Review saved!');
+                    },
+                    error: function (result) {
+                        alert('error');
+                    }
+                });
+            });
+
+        });
+
+    </script>
+
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            /* prevent horizontal scrollbar */
+            overflow-x: hidden;
+            /* add padding to account for vertical scrollbar */
+            padding-right: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Global Search For Book Library </h1>
+    <div class="ui-widget">
+        <label for="tags">Search Author, Book and Review: </label>
+        <input id="search_term_text"></br>
+
+    </div>
+    </br>
+    </br>
+    <div>
+
+        <button id="create_author" value="val_1" name="create_author">Create Dummy Authors</button>
+        <label for="tags">No: </label>
+        <input id="author_no" type="text" name="author_no" value="1000" />
+    </div>
+
+    </br>
+    </br>
+    <div>
+
+        <button id="create_book" value="val_1" name="create_book">Create Dummy Books</button>
+        <label for="tags">No: </label>
+        <input id="book_no" type="text" name="book_no" value="5000" />
+    </div>
+    </br>
+    </br>
+    <div>
+
+        <button id="create_review" value="val_1" name="create_review">Create Dummy Reviews</button>
+        <label for="tags">No: </label>
+        <input id="review_no" type="text" name="review_no" value="25000" />
+    </div>
+
+</body>
+
+</html>

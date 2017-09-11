@@ -1,0 +1,7 @@
+{
+
+"dbName":"BooksLib",
+"PORT":"3000",
+"dbConnectionUrl":"mongodb://127.0.0.1:27017/",
+"secret": "asdfadfadfcx4223ew"
+}
