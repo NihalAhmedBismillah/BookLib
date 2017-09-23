@@ -1,8 +1,10 @@
 
 const config = require('./config.json');
 const MongoClient = require('mongodb').MongoClient;
-// connect with mongoClient
-MongoClient.connect(config['dbConnectionUrl'] + config['dbName'],  (err, db) => {
+// connect with mongoClient// process.env.MONGOLAB_URI
+//MongoClient.connect(config['dbConnectionUrl'] + config['dbName'],  (err, db) => {
+ // console.log(process.env.MONGOLAB_URI);
+MongoClient.connect("mongodb://test:test@ds147884.mlab.com:47884/booklab",  (err, db) => {
 
       if (err) {
         console.log('Database connection error occur!', JSON.stringify(err));  
