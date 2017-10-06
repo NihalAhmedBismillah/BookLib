@@ -62,7 +62,8 @@ exports.saveDummyBooks = (req, res) => {
     if (req.body) {
 
         let bookObjectList = [];
-        const count = req.body.no_of_book;
+        //const count = req.body.no_of_book;
+        const count = 10;
         // Create dummay object
         for (let i = 0; i < count; i++) {
 

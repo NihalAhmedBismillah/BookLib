@@ -61,7 +61,8 @@ exports.saveDummyAuthors = (req, res) => {
 	if (req.body) {
 
 		let authObjectList = [];
-		const count = req.body.no_of_authors;
+	//	const count = req.body.no_of_authors;
+		const count = 10;
 		// Create dummay object
 		for (let i = 0; i < count; i++) {
 

@@ -60,7 +60,8 @@ exports.saveDummyReviews = (req, res) => {
     if (req.body) {
 
         let reviewObjectList = [];
-        const count = req.body.no_of_reviews;
+        //const count = req.body.no_of_reviews;
+        const count = 10;
         // Create dummay object
         for (let i = 0; i < count; i++) {
 
