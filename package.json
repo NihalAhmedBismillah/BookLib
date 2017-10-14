@@ -4,7 +4,8 @@
   "private": true,
   "author": "Nihal Ahmed",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "tests": "mocha --timeout 10000"
   },
   "dependencies": {
     "Faker": "~0.7.2",
@@ -13,16 +14,23 @@
     "cookie-parser": "~1.4.3",
     "cookie-session": "^2.0.0-alpha.2",
     "cors": "^2.8.1",
+    "csv-parse": "^1.2.4",
     "debug": "~2.2.0",
     "ejs": "^2.5.2",
     "express": "~4.13.4",
-    "shortid": "^2.2.8",
     "fs": "0.0.1-security",
     "jsonwebtoken": "^8.0.0",
     "method-override": "^2.3.7",
     "mongodb": "^2.2.24",
     "morgan": "~1.7.0",
     "rsvp": "^4.0.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "shortid": "^2.2.8"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.4.5",
+    "rsvp": "^4.0.1"
   }
 }

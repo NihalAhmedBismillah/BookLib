@@ -14,3 +14,16 @@ module.exports.find = (query,collNm, callback) => {
     });
 
 }
+/**
+ * Desc : This method is use for find data in collection.
+ * @param : Passing query for json object type
+ * @param : Passing callback function type function    
+ */
+module.exports.executeSearchQuery = (query,collNm, callback) => {
+
+    dbOpration.executeSearchQuery(query, collNm, (err, result) => {
+        
+        callback(null, result);
+    });
+
+}

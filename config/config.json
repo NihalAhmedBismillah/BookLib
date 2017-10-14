@@ -1,7 +1,20 @@
 {
-
-"dbName":"BooksLib",
-"PORT":"5000",
-"dbConnectionUrl":"mongodb://127.0.0.1:27017/",
-"secret": "asdfadfadfcx4223ew"
+    "dbName": "BooksLib",
+    "PORT": "5000",
+    "dbConnectionUrl": "mongodb://127.0.0.1:27017/",
+    "secret": "asdfadfadfcx4223ew",
+    "postcodeDefaultSetting": {
+        "format": "json",
+        "filters": "search_text",
+        "fields": [
+            "village_locality_name",
+            "post_box_no",
+            "pincode_no",
+            "sub_dist_name",
+            "district_name",
+            "state_name"
+        ],
+        "sort": "village_locality_name",
+        "limit": "100"
+    }
 }

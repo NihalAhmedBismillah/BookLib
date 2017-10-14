@@ -7,6 +7,7 @@
 
     <script>
         $(function () {
+
             $("#search_term_text").autocomplete({
                 source: function (request, response) {
                     $.ajax({
@@ -28,6 +29,53 @@
                 focus: function (event, ui) { },
                 select: function (event, ui) { }
             });
+
+            //for post code 
+            $("#search_term_text_address").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        dataType: "json",
+                        type: 'Get',
+                        url: '/api/v1/globalsearchpostcodeaddress/?term=' + request.term,
+                        success: function (data) {
+                            $('#search_term_text_address').removeClass('ui-autocomplete-loading');
+                            response(data);
+                        },
+                        error: function (data) {
+                            $('#search_term_text_address').removeClass('ui-autocomplete-loading');
+                        }
+                    });
+                },
+                minLength: 3,
+                open: function () { },
+                close: function () { },
+                focus: function (event, ui) { },
+                select: function (event, ui) { }
+            });
+
+             //for by text 
+            $("#search_term_search_text_address").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        dataType: "json",
+                        type: 'Get',
+                        url: '/api/v1/globalsearchaddress/?term=' + request.term,
+                        success: function (data) {
+                            $('#search_term_search_text_address').removeClass('ui-autocomplete-loading');
+                            response(data);
+                        },
+                        error: function (data) {
+                            $('#search_term_search_text_address').removeClass('ui-autocomplete-loading');
+                        }
+                    });
+                },
+                minLength: 4,
+                open: function () { },
+                close: function () { },
+                focus: function (event, ui) { },
+                select: function (event, ui) { }
+            });
+
 
             //for auther creation...
             $("#create_author").click(function (e) {
@@ -104,9 +152,6 @@
 
 <body>
     <h1>WELCOME NIHAL AHMED SEARCH REST API!</h1>
-    </br>
-    </br>
-    </br>
     <h1>Global Search For Book Library </h1>
     <div class="ui-widget">
         <label for="tags">Search Author, Book and Review: </label>
@@ -114,9 +159,20 @@
 
     </div>
     </br>
-    </br>
-    <div>
+    <h1>Global Search For Post Code </h1>
+    <div class="ui-widget">
+        <label for="tags">Search address by post code : </label>
+        <input id="search_term_text_address"></br>
 
+    </div>
+    <h1>Global Search Address by city, post office name, dist and state name  </h1>
+    <div class="ui-widget">
+        <label for="tags">Search address text  : </label>
+        <input id="search_term_search_text_address"></br>
+
+    </div>
+    <div>
+<!-- 
         <button id="create_author" value="val_1" name="create_author">Create Dummy Authors</button>
         <label for="tags">No: </label>
         <input id="author_no" type="text" name="author_no" value="1000" />
@@ -138,7 +194,7 @@
         <label for="tags">No: </label>
         <input id="review_no" type="text" name="review_no" value="25000" />
     </div>
-
+ -->
 </body>
 
 </html>

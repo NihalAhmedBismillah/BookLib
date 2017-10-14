@@ -1,5 +1,4 @@
 const globalSearch = require("../models/GlobalSearch");
-const config = require('./../config/config.json');
 const async = require('async');
 const collAuthors = 'Authors';
 const collBooks = 'Books';
@@ -85,6 +84,7 @@ exports.getGlobalSearchAutoComplete = (req, res) => {
     // TODO:make query
 
     const term = req.query;
+
     //TODO: we need to optimize query as well as hard code matching by using config
     async.parallel({
 
@@ -138,10 +138,118 @@ exports.getGlobalSearchAutoComplete = (req, res) => {
             results.getBooks.forEach((x) => {
                 searchResponse.push(x.bookName);
             });
-           (results.getReviews && results.getReviews.length > 0) ? searchResponse.push('Matched Review Title List    '):'';
+            (results.getReviews && results.getReviews.length > 0) ? searchResponse.push('Matched Review Title List    ') : '';
             results.getReviews.forEach((x) => {
                 searchResponse.push(x.reviewerName);
             });
+            res.json(searchResponse)
+
+        });
+
+}
+    //getAddressAutoComplete
+module.exports.getAddressPostCodeSearchAutoComplete = (req, res) => {
+
+    const term = req.query;
+    //TODO: we need to optimize query as well as hard code matching by using config
+    async.parallel({
+
+        postCodes: function (callback) {
+            let searchText  = term.term.replace(/[&\/\\^#,+()$~%.'":*?<>{}]/g, '')
+            let query = { 'pincode_no': { $regex: ".*" + searchText } };
+            globalSearch.find(query, 'PostCode', (err, result) => {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, result);
+                }
+            });
+        }
+    },
+        // optional callback
+        function (err, results) {
+
+            let searchResponse = [];
+            (results.postCodes && results.postCodes.length > 0) ? searchResponse.push('Matched Address List        ') : '';
+            results.postCodes.forEach((x) => {
+                searchResponse.push(x.village_locality_name + ',' + x.post_box_no + ','
+                    + x.pincode_no + ',' +
+                    x.sub_dist_name + ',' +
+                    x.district_name);
+            });
+
+            res.json(searchResponse)
+
+        });
+
+}
+
+module.exports.getAddressAutoComplete = (req, res) => {
+
+    const term = req.query;
+    //TODO: we need to optimize query as well as hard code matching by using config
+    async.parallel({
+
+        postCodes: function (callback) {
+            let searchText  = term.term.replace(/[&\/\\^#,+()$~%.'":*?<>{}]/g, '')
+            let query = { 'search_text': { $regex: ".*" + searchText+"." } };
+            globalSearch.find(query, 'PostCode', (err, result) => {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, result);
+                }
+            });
+        }
+    },
+        // optional callback
+        function (err, results) {
+
+            let searchResponse = [];
+            (results.postCodes && results.postCodes.length > 0) ? searchResponse.push('Matched Address List        ') : '';
+            results.postCodes.forEach((x) => {
+                searchResponse.push(x.village_locality_name + ',' + x.post_box_no + ','
+                    + x.pincode_no + ',' +
+                    x.sub_dist_name + ',' +
+                    x.district_name);
+            });
+
+            res.json(searchResponse)
+
+        });
+
+}
+
+
+
+module.exports.getAddressWithQuery = (req, res) => {
+
+    const queryObject = req.query;
+    async.parallel({
+
+        postCodes: function (callback) {
+           
+            globalSearch.executeSearchQuery(queryObject, 'PostCode', (err, result) => {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, result);
+                }
+            });
+        }
+    },
+        // optional callback
+        function (err, results) {
+
+            let searchResponse = [];
+            (results.postCodes && results.postCodes.length > 0) ? searchResponse.push('Matched Address List        ') : '';
+            results.postCodes.forEach((x) => {
+                searchResponse.push(x.village_locality_name + ',' + x.post_box_no + ','
+                    + x.pincode_no + ',' +
+                    x.sub_dist_name + ',' +
+                    x.district_name);
+            });
+
             res.json(searchResponse)
 
         });
