@@ -62,3 +62,18 @@ console.log(JSON.stringify(data));
 //     console.log('I am in error ');
 //     console.log(JSON.stringify(err));
 // })
+
+
+log  = {
+
+    info:function(message){
+        console.info(message);
+    },
+    error:(message)=>{
+        console.error(message);
+    },
+    warning:(message)=>{
+    console.warn(message);
+    }
+}
+module.exports = log;

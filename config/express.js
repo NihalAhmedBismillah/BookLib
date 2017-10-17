@@ -28,14 +28,15 @@ module.exports = function () {
     //begin jwt 
 
     // api for generate jwt token
-    app.post('/generatejwt', function (req, res) {
+    app.post('/generatejwt',  (req, res)=> {
 
         // create dummy user      
         let user = {
-            name: 'test user',
-            password: 'test password',
+            name: req.body.userName,
+            password:  req.body.password,
             address: ' asfafasdfasdf    adsfasdfasdfasdfas32e33adfasdfasd  fasdfads'
         }
+        
         // create a token
         let token = jwt.sign(user, secret, {
             expiresIn: 60 * 60 * 24 // expires in 24 hours
