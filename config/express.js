@@ -10,7 +10,7 @@ let express = require('express'),
     cors = require('cors'),
     jwt = require('jsonwebtoken');
 const config = require('./config.json');
-
+const helmet = require('helmet');
 module.exports = function () {
 
     let app = express();
@@ -23,20 +23,26 @@ module.exports = function () {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(methodOverride('_method'));
     app.use(cookieParser());
-    app.use(cors({ origin: 'http://localhost:3001' }));
+    //app.use(cors({ origin: 'http://localhost:3001' }));
+    app.use(cors());
+    app.options('*', cors());
+    app.use(helmet());
+    app.use(helmet.noCache())
+    app.use(helmet.frameguard())
+
 
     //begin jwt 
 
     // api for generate jwt token
-    app.post('/generatejwt',  (req, res)=> {
+    app.post('/generatejwt', (req, res) => {
 
         // create dummy user      
         let user = {
             name: req.body.userName,
-            password:  req.body.password,
+            password: req.body.password,
             address: ' asfafasdfasdf    adsfasdfasdfasdfas32e33adfasdfasd  fasdfads'
         }
-        
+
         // create a token
         let token = jwt.sign(user, secret, {
             expiresIn: 60 * 60 * 24 // expires in 24 hours
@@ -48,7 +54,7 @@ module.exports = function () {
             token: token
         });
     });
-     
+
     // middleware for authenticate all api
     let apiRoutes = (function (req, res, next) {
 
@@ -75,7 +81,7 @@ module.exports = function () {
      * For now we are by pass jwt Authorization.
      * if we want to enable jwt Authorization, generate jwt and pass in request headers key as 'x-access-token' and value jwt  
      */
-   // app.use('/api', apiRoutes);
+    app.use('/api', apiRoutes);
 
     //end
 
@@ -83,20 +89,18 @@ module.exports = function () {
     // development error handler will print stacktrace
     if (app.get('env') === 'development') {
         app.use(function (err, req, res, next) {
-            res.status(err.status || 500);
-            res.render('error', {
-                message: err.message,
-                error: err
+            res.status(err.status || 500).send({
+                success: false,
+                message: 'internal server error .'
             });
         });
     }
 
     // production error handler, no stacktraces leaked to user
     app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: {}
+        res.status(err.status || 500).send({
+            success: false,
+            message: 'internal server error .'
         });
     });
 
