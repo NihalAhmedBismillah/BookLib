@@ -45,6 +45,7 @@ module.exports = function () {
 
         // create a token
         let token = jwt.sign(user, secret, {
+            //TODO: expire time should be configable, It should be come from some config file
             expiresIn: 60 * 60 * 24 // expires in 24 hours
         });
         // return the information including token as JSON

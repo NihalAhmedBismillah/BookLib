@@ -1,3 +1,7 @@
+
+/**
+ * This class use for mathe operation perform
+ */
 class methOperationWithPromise {
 
     constructor() {
