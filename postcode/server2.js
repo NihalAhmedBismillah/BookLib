@@ -5,8 +5,8 @@ const rsvp = require('rsvp');
 const CHUNK_SIZE = 10 * 512; // 52KB
 let buffer = new Buffer(CHUNK_SIZE);
 const MongoClient = require('mongodb').MongoClient;
-MongoClient.connect("mongodb://test323!@:test43@#$@ds147884.mlab.com:47884/booklab",  (err, db) => {
-//MongoClient.connect(config['dbConnectionUrl'] + config['dbName'], (err, db) => {
+//MongoClient.connect("mongodb://test323!@:test43@#$@ds147884.mlab.com:47884/booklab",  (err, db) => {
+MongoClient.connect(config['dbConnectionUrl'] + config['dbName'], (err, db) => {
   
     function saveData(data) {
 

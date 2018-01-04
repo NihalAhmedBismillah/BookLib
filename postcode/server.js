@@ -10,7 +10,7 @@ require('../config/dbConnnect').connectDb(() => {
     function saveData(data) {
 
         return new rsvp.Promise((res, rej) => {
-            let collection = global['db'].collection('PostCode');
+            let collection = global['db'].collection('PostCode1');
             collection.save(data, { w: 1 }, (_err, resultData) => {
 
                 console.log(count);
@@ -20,12 +20,23 @@ require('../config/dbConnnect').connectDb(() => {
         })
     }
 
+    function Insert(data) {
+
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(true);
+            }, 100)
+        })
+
+
+    }
+
     let promises = [];
-    let readcount  = 0;
-    fs.createReadStream('postcode.csv')
+    let readcount = 0;
+    fs.createReadStream('./postcode/postcode.csv')
         .pipe(parse({ delimiter: ',' }))
-        .on('data', (csvrow) => {
-            console.log('reading count '+readcount);
+        .on('data', async (csvrow) => {
+            console.log('reading count ' + readcount);
             readcount++;
             let coll = {
                 _id: shortId.generate(),
@@ -37,7 +48,13 @@ require('../config/dbConnnect').connectDb(() => {
                 state_name: csvrow[5],
                 search_text: csvrow[0] + '' + csvrow[1] + csvrow[2] + csvrow[3] + csvrow[4] + csvrow[5]
             }
+           // let data = await Insert(coll)
             promises.push(saveData(coll));
+
+        })
+        .on('readable',(data)=>{
+            
+            console.log(data);
         })
         .on('end', () => {
             console.log('reading data end!')
